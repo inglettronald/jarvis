@@ -11,7 +11,7 @@
     "homepage": "https://fabricmc.net/",
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
-  "license": "Insert License Here",
+  "license": "LGPL 3.0 or Later",
   "icon": "assets/jarvisconfigindex/icon.png",
   "environment": "*",
   "entrypoints": {

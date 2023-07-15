@@ -13,5 +13,3 @@ dependencies {
     api(project(path = ":api", configuration = "namedElements"))
     modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
 }
-
-

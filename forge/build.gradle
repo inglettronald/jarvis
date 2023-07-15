@@ -30,8 +30,9 @@ configurations {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+    common(project(path: ":common", configuration: "namedElements"))
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge"))
+    shadowCommon(project(path: ":api", configuration: "transformProductionFabric"))
 }
 
 processResources {
@@ -64,6 +65,9 @@ sourcesJar {
     def commonSources = project(":common").sourcesJar
     dependsOn commonSources
     from commonSources.archiveFile.map { zipTree(it) }
+    def apiSources = project(":api").sourcesJar
+    dependsOn apiSources
+    from apiSources.archiveFile.map { zipTree(it) }
 }
 
 

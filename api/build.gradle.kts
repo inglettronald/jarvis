@@ -6,7 +6,12 @@ architectury {
 val fabric_loader_version: String by rootProject
 
 dependencies {
-    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
 }
 
+tasks.remapJar {
+    archiveClassifier.set("")
+}
+tasks.jar {
+    archiveClassifier.set("dev")
+}
 
