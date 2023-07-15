@@ -10,5 +10,6 @@ pluginManagement {
 include("common")
 include("fabric")
 include("forge")
+include("api")
 
 rootProject.name = "jarvis"

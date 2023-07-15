@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class Util {
     public static double coerce(double value, double min, double max) {
-        assert min <= max;
         return Math.max(Math.min(value, max), min);
     }
 

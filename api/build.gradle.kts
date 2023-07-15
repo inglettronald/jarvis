@@ -3,14 +3,9 @@ architectury {
     common(enabled_platforms.split(","))
 }
 
-loom {
-    accessWidenerPath.set(file("src/main/resources/jarvis.accesswidener"))
-}
-
 val fabric_loader_version: String by rootProject
 
 dependencies {
-    api(project(path = ":api", configuration = "namedElements"))
     modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
 }
 
