@@ -1,0 +1,28 @@
+modLoader = "javafml"
+loaderVersion = "[45,)"
+#issueTrackerURL = ""
+license = "MIT"
+
+[[mods]]
+modId = "jarvisconfigindex"
+version = "${version}"
+displayName = "MIT"
+authors = "Linnea Gräf"
+description = '''
+Common Config Index for SkyBlock mods
+'''
+#logoFile = ""
+
+[[dependencies.examplemod]]
+modId = "forge"
+mandatory = true
+versionRange = "[45,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.examplemod]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.4,)"
+ordering = "NONE"
+side = "BOTH"

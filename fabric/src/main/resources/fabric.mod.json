@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "jarvisconfigindex",
+  "version": "${version}",
+  "name": "Jarvis Common Config Index",
+  "description": "Common Config Index for SkyBlock mods",
+  "authors": [
+    "Linnea Gräf"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "Insert License Here",
+  "icon": "assets/jarvisconfigindex/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "moe.nea.jarvis.fabric.Main"
+    ]
+  },
+  "mixins": [
+    "jarvis.mixins.json",
+    "jarvis-common.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.19.4"
+  }
+}
