@@ -1,7 +1,9 @@
 package moe.nea.jarvis.fabric;
 
 import moe.nea.jarvis.api.JarvisHud;
+import moe.nea.jarvis.api.JarvisScalable;
 import moe.nea.jarvis.impl.JarvisHudEditor;
+import moe.nea.jarvis.impl.Util;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
@@ -12,7 +14,18 @@ import java.util.Arrays;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 public class Main implements ClientModInitializer {
-    JarvisHud hud = new JarvisHud() {
+    JarvisHud hud = new JarvisScalable() {
+        @Override
+        public float getScale() {
+            return (float) Util.coerce(scale, 0.1F, 10F);
+        }
+
+        @Override
+        public void setScale(float newScale) {
+            scale = newScale;
+        }
+
+        float scale = 1F;
         double x;
         double y;
 

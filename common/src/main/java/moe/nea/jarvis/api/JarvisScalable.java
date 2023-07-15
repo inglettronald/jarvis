@@ -20,7 +20,7 @@ public interface JarvisScalable extends JarvisHud {
 
     @Override
     default double getEffectiveHeight() {
-        return getWidth() * getScale();
+        return getHeight() * getScale();
     }
 
     @Override
