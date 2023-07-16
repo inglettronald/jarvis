@@ -42,7 +42,7 @@ public class JarvisHudEditor extends Screen {
     private Point oppositeCorner;
     private double scalePerDistance;
 
-    public JarvisHudEditor(List<JarvisHud> huds) {
+    public JarvisHudEditor(Screen lastScreen, List<JarvisHud> huds) {
         super(Text.translatable("jarvis.editor"));
         this.huds = huds;
         for (JarvisHud hud : huds) {
@@ -186,8 +186,8 @@ public class JarvisHudEditor extends Screen {
         double y = mouseY - grabbedHudCoordOffset.y();
         Point inTopLeftSpace = grabbedAnchor.translate(JarvisAnchor.TOP_LEFT, x, y, grabbedHud.getEffectiveWidth(), grabbedHud.getEffectiveHeight());
         Point inOriginalSpace = JarvisAnchor.TOP_LEFT.translate(grabbedHud.getAnchor(),
-                Util.coerce(inTopLeftSpace.x(), 0, client.getWindow().getScaledWidth() - grabbedHud.getEffectiveWidth()),
-                Util.coerce(inTopLeftSpace.y(), 0, client.getWindow().getScaledHeight() - grabbedHud.getEffectiveHeight()),
+                JarvisUtil.coerce(inTopLeftSpace.x(), 0, client.getWindow().getScaledWidth() - grabbedHud.getEffectiveWidth()),
+                JarvisUtil.coerce(inTopLeftSpace.y(), 0, client.getWindow().getScaledHeight() - grabbedHud.getEffectiveHeight()),
                 grabbedHud.getEffectiveWidth(),
                 grabbedHud.getEffectiveHeight()
         );

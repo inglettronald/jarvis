@@ -15,85 +15,27 @@
 
 package moe.nea.jarvis.fabric;
 
-import moe.nea.jarvis.api.JarvisHud;
-import moe.nea.jarvis.api.JarvisScalable;
-import moe.nea.jarvis.impl.JarvisHudEditor;
-import moe.nea.jarvis.impl.Util;
+import moe.nea.jarvis.api.JarvisPlugin;
+import moe.nea.jarvis.impl.JarvisContainer;
+import moe.nea.jarvis.impl.JarvisUtil;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
+import net.fabricmc.loader.api.FabricLoader;
 
-import java.util.Arrays;
-
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import java.util.List;
 
 public class Main implements ClientModInitializer {
-    JarvisHud hud = new JarvisScalable() {
-        @Override
-        public float getScale() {
-            return (float) Util.coerce(scale, 0.1F, 10F);
-        }
-
-        @Override
-        public void setScale(float newScale) {
-            scale = newScale;
-        }
-
-        float scale = 1F;
-        double x;
-        double y;
-
-        @Override
-        public double getX() {
-            return x;
-        }
-
-        @Override
-        public void setX(double newX) {
-            x = newX;
-        }
-
-        @Override
-        public double getY() {
-            return y;
-        }
-
-        @Override
-        public void setY(double newY) {
-            y = newY;
-        }
-
-        @Override
-        public Text getLabel() {
-            return Text.literal("Test HUD Element");
-        }
-
-        @Override
-        public int getContentHeight() {
-            return 10000;
-        }
-
-        @Override
-        public int getWidth() {
-            return 200;
-        }
-
-        @Override
-        public int getHeight() {
-            return 300;
-        }
-    };
 
     @Override
     public void onInitializeClient() {
+        List<JarvisPlugin> jarvisPlugins = FabricLoader.getInstance().getEntrypoints("jarvis", JarvisPlugin.class);
+        JarvisContainer container = JarvisContainer.init();
+        container.plugins.addAll(jarvisPlugins);
+        if (JarvisUtil.isTest)
+            container.plugins.add(new TestPluginClass());
+        container.finishLoading();
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(literal("jarvis").executes(context -> {
-                MinecraftClient.getInstance().send(() -> {
-                    MinecraftClient.getInstance().setScreen(new JarvisHudEditor(Arrays.asList(hud)));
-                });
-                return 0;
-            }));
+            container.registerCommands(dispatcher);
         });
     }
 }

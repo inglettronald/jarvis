@@ -17,7 +17,10 @@ package moe.nea.jarvis.impl;
 
 import java.awt.*;
 
-public class Util {
+public class JarvisUtil {
+
+    public static boolean isTest = Boolean.getBoolean("jarvis.test");
+
     public static double coerce(double value, double min, double max) {
         return Math.max(Math.min(value, max), min);
     }

@@ -1,26 +1,26 @@
 modLoader = "javafml"
 loaderVersion = "[45,)"
 #issueTrackerURL = ""
-license = "MIT"
+license = "LGPL 3.0 or Later"
 
 [[mods]]
-modId = "jarvisconfigindex"
+modId = "jarviscci"
 version = "${version}"
-displayName = "MIT"
+displayName = "Jarvis Common Config Index"
 authors = "Linnea Gräf"
 description = '''
-Common Config Index for SkyBlock mods
+Common Config Index for Minecraft mods
 '''
 #logoFile = ""
 
-[[dependencies.examplemod]]
+[[dependencies.jarviscci]]
 modId = "forge"
 mandatory = true
 versionRange = "[45,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.examplemod]]
+[[dependencies.jarviscci]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.19.4,)"

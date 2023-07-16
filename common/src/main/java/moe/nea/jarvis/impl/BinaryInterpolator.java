@@ -29,7 +29,7 @@ public class BinaryInterpolator {
 
 
     public double getCurrentProgress() {
-        return Util.coerce(Util.lerp(progressStart, progressEnd, (System.currentTimeMillis() - intervalStart) / universeLength), 0, 1);
+        return JarvisUtil.coerce(JarvisUtil.lerp(progressStart, progressEnd, (System.currentTimeMillis() - intervalStart) / universeLength), 0, 1);
     }
 
     public void lerpTo(double target) {
@@ -39,6 +39,6 @@ public class BinaryInterpolator {
     }
 
     public Color lerp(Color start, Color end) {
-        return Util.lerpColor(start, end, getCurrentProgress());
+        return JarvisUtil.lerpColor(start, end, getCurrentProgress());
     }
 }

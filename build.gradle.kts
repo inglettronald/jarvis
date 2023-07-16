@@ -119,6 +119,9 @@ subprojects {
     configure<LoomGradleExtensionAPI> {
         runs {
             removeIf { it.name == "server" }
+            named("client") {
+                property("jarvis.test", "true")
+            }
         }
     }
 }

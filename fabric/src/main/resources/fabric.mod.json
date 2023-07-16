@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "jarvisconfigindex",
+  "id": "jarviscci",
   "version": "${version}",
   "name": "Jarvis Common Config Index",
-  "description": "Common Config Index for SkyBlock mods",
+  "description": "Common Config Index for Minecraft mods",
   "authors": [
     "Linnea Gräf"
   ],
@@ -12,7 +12,7 @@
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
   "license": "LGPL 3.0 or Later",
-  "icon": "assets/jarvisconfigindex/icon.png",
+  "icon": "assets/jarviscci/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
