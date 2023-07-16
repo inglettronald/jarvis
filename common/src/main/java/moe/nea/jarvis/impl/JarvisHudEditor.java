@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class JarvisHudEditor extends Screen {
+    private final Screen lastScreen;
     private final List<JarvisHud> huds;
     private final Map<JarvisHud, BinaryInterpolator> hoverProgress = new IdentityHashMap<>();
     private boolean isScaling = false;
@@ -29,6 +30,7 @@ public class JarvisHudEditor extends Screen {
 
     public JarvisHudEditor(Screen lastScreen, List<JarvisHud> huds) {
         super(Text.translatable("jarvis.editor"));
+        this.lastScreen = lastScreen;
         this.huds = huds;
         for (JarvisHud hud : huds) {
             hoverProgress.put(hud, new BinaryInterpolator(200));
@@ -132,6 +134,11 @@ public class JarvisHudEditor extends Screen {
         } else
             tryMoveGrabbedOverlay(mouseX, mouseY);
         super.mouseMoved(mouseX, mouseY);
+    }
+
+    @Override
+    public void close() {
+        client.setScreen(lastScreen);
     }
 
     public void tryGrabOverlay(double mouseX, double mouseY) {
