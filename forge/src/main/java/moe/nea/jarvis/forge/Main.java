@@ -4,6 +4,7 @@ import moe.nea.jarvis.api.JarvisConstants;
 import moe.nea.jarvis.api.JarvisPlugin;
 import moe.nea.jarvis.impl.JarvisContainer;
 import moe.nea.jarvis.impl.JarvisUtil;
+import moe.nea.jarvis.impl.test.TestPluginClass;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.InterModComms;

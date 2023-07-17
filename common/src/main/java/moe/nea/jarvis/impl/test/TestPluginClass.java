@@ -1,9 +1,10 @@
-package moe.nea.jarvis.forge;
+package moe.nea.jarvis.impl.test;
 
 import moe.nea.jarvis.api.JarvisConstants;
 import moe.nea.jarvis.api.JarvisHud;
 import moe.nea.jarvis.api.JarvisPlugin;
 import moe.nea.jarvis.api.JarvisScalable;
+import moe.nea.jarvis.impl.JarvisContainer;
 import moe.nea.jarvis.impl.JarvisUtil;
 import net.minecraft.text.Text;
 
@@ -11,11 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TestPluginClass implements JarvisPlugin {
-    @Override
-    public String getModId() {
-        return JarvisConstants.MODID;
-    }
-
     JarvisHud hud = new JarvisScalable() {
         @Override
         public float getScale() {
@@ -75,5 +71,10 @@ public class TestPluginClass implements JarvisPlugin {
     @Override
     public List<JarvisHud> getAllHuds() {
         return Arrays.asList(hud);
+    }
+
+    @Override
+    public String getModId() {
+        return JarvisConstants.MODID;
     }
 }

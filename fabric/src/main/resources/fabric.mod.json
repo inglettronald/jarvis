@@ -17,6 +17,9 @@
   "entrypoints": {
     "client": [
       "moe.nea.jarvis.fabric.Main"
+    ],
+    "jarvis": [
+      "moe.nea.jarvis.impl.test.TestPluginClass"
     ]
   },
   "mixins": [
