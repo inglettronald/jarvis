@@ -144,16 +144,56 @@ public class JarvisConfigSearch extends Screen {
 
     private void updateSearchResults(String searchTerm) {
         searchQuery = searchTerm;
+        String[] groups = searchTerm.toLowerCase(Locale.ROOT).split("\\|");
+        String[][] filter = new String[groups.length][];
+        for (int i = 0; i < groups.length; i++) {
+            String[] group = groups[i].trim().split(" +");
+            for (int j = 0; j < group.length; j++) {
+                group[j] = group[j].toLowerCase(Locale.ROOT);
+            }
+            filter[i] = group;
+        }
         filteredOptions = allOptions.stream()
-                .filter(it -> filterOption(it, searchTerm))
+                .filter(it -> filterOption(it, filter))
                 .collect(Collectors.toList());
         scroll(0);
     }
 
-    private boolean filterOption(ConfigOptionWithCustody configOptionWithCustody, String searchTerm) {
-        var option = configOptionWithCustody.option();
-        return option.title().getString().toLowerCase(Locale.ROOT).contains(searchTerm)
-                || (option.description().stream().anyMatch(it -> it.getString().toLowerCase(Locale.ROOT).contains(searchTerm)))
-                || option.match(searchTerm);
+    private List<String> getTextPieces(ConfigOptionWithCustody withCustody) {
+        ArrayList<String> objects = new ArrayList<>();
+        var option = withCustody.option();
+        objects.add(option.title().getString().toLowerCase(Locale.ROOT));
+        Text category = option.category();
+        if (category != null) {
+            objects.add(category.getString().toLowerCase(Locale.ROOT));
+        }
+        objects.add(container.getModName(withCustody.plugin()).getString().toLowerCase(Locale.ROOT));
+        for (Text text : option.description()) {
+            objects.add(text.getString().toLowerCase(Locale.ROOT));
+        }
+        return objects;
+    }
+
+    private boolean filterOption(ConfigOptionWithCustody configOptionWithCustody, String[][] searchTerm) {
+        List<String> textPieces = getTextPieces(configOptionWithCustody);
+        for (String[] group : searchTerm) {
+            boolean matched = true;
+            for (String part : group) {
+                boolean partMatched = configOptionWithCustody.option().match(part);
+                if (!partMatched)
+                    for (String textPiece : textPieces) {
+                        if (textPiece.contains(part)) {
+                            partMatched = true;
+                            break;
+                        }
+                    }
+                if (!partMatched) {
+                    matched = false;
+                    break;
+                }
+            }
+            if (matched) return true;
+        }
+        return false;
     }
 }

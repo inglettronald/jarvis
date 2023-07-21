@@ -4,6 +4,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public interface JarvisConfigOption {
     /**
      * @return the description of this option
      */
-    @NotNull List<@NotNull Text> description();
+    @NotNull @Unmodifiable List<@NotNull Text> description();
 
     /**
      * Calling this function should return a screen for editing this config option. It may also jump to a page containing

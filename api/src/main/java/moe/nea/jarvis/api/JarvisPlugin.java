@@ -3,6 +3,7 @@ package moe.nea.jarvis.api;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface JarvisPlugin {
      * This includes all disabled HUDs. The returned list of HUDs
      * should not change at any point during the course of the game.
      */
-    default @NotNull List<@NotNull JarvisHud> getAllHuds() {
+    default @NotNull @Unmodifiable List<@NotNull JarvisHud> getAllHuds() {
         return Collections.emptyList();
     }
 
@@ -21,7 +22,7 @@ public interface JarvisPlugin {
      * Get all config options that are made available by this plugin.
      * This includes all disabled, and turned off config options.
      */
-    default @NotNull List<@NotNull JarvisConfigOption> getAllConfigOptions() {
+    default @NotNull @Unmodifiable List<@NotNull JarvisConfigOption> getAllConfigOptions() {
         return Collections.emptyList();
     }
 
