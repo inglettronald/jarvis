@@ -1,0 +1,159 @@
+package moe.nea.jarvis.impl;
+
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.text.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+public class JarvisConfigSearch extends Screen {
+    private final JarvisContainer container;
+    private final List<ConfigOptionWithCustody> allOptions;
+    private final Screen parentScreen;
+    private List<ConfigOptionWithCustody> filteredOptions = new ArrayList<>();
+    private TextFieldWidget searchField;
+    private String searchQuery = "";
+    private int searchFieldWidth;
+
+    public JarvisConfigSearch(JarvisContainer container, Screen parentScreen, List<ConfigOptionWithCustody> allOptions) {
+        super(Text.translatable("jarvis.configlist"));
+        this.container = container;
+        this.allOptions = allOptions;
+        this.parentScreen = parentScreen;
+        updateSearchResults("");
+    }
+
+    double scroll;
+
+    @Override
+    protected void init() {
+        assert client != null;
+        super.init();
+        searchFieldWidth = Math.min(400, width / 3);
+        addDrawableChild(searchField = new TextFieldWidget(client.textRenderer, width / 2 - searchFieldWidth / 2,
+                10, searchFieldWidth, 18, Text.translatable("jarvis.configlist.suggestion")));
+        searchField.setText(searchQuery);
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        assert client != null;
+        super.render(context, mouseX, mouseY, delta);
+        context.fill(0, 0, width, height, 0x50000000);
+        context.enableScissor(0, 35, width, height);
+        context.getMatrices().push();
+
+        int left = width / 2 - searchFieldWidth / 2;
+        context.getMatrices().translate(left, 35 - scroll, 0);
+        mouseY -= 35 - scroll;
+        mouseX -= left;
+        for (ConfigOptionWithCustody filteredOption : filteredOptions) {
+            int height = 15 + filteredOption.option().description().size() * 10;
+            if (0 <= mouseX && mouseX < searchFieldWidth &&
+                    0 <= mouseY && mouseY < height) {
+                context.fill(0, 0, searchFieldWidth, height, 0x50A0A0A0);
+            }
+
+            context.drawText(client.textRenderer, Text.literal("").append(container.getModName(filteredOption.plugin())).append(Text.literal(" > ")).append(filteredOption.option().title()), 2, 2, -1, false);
+            int offset = 15;
+            for (Text descriptionLine : filteredOption.option().description()) {
+                context.drawText(client.textRenderer, descriptionLine, 2, offset, 0xFF808080, true);
+                offset += 10;
+            }
+            mouseY -= height;
+            context.getMatrices().translate(0, height, 0);
+        }
+
+        context.getMatrices().pop();
+        context.disableScissor();
+    }
+
+    @Override
+    public void close() {
+        assert client != null;
+        client.setScreen(parentScreen);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+        if (super.mouseScrolled(mouseX, mouseY, amount)) {
+            return true;
+        }
+        if (35 <= mouseY && mouseY < height && width / 2 - searchFieldWidth / 2 <= mouseX
+                && mouseX < width / 2 + searchFieldWidth / 2) {
+            scroll(amount);
+            return true;
+        }
+        return false;
+    }
+
+    public void scroll(double amount) {
+        int usedHeight = -height + 35;
+        for (ConfigOptionWithCustody filteredOption : filteredOptions) {
+            usedHeight += filteredOption.option().description().size() * 10 + 15;
+        }
+        scroll = JarvisUtil.coerce(scroll + amount * -5, 0, usedHeight);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        assert client != null;
+        if (super.mouseClicked(mouseX, mouseY, button)) return true;
+        mouseY -= 35 - scroll;
+        int left = width / 2 - searchFieldWidth / 2;
+        mouseX -= left;
+        for (ConfigOptionWithCustody filteredOption : filteredOptions) {
+            int height = 15 + filteredOption.option().description().size() * 10;
+            if (0 <= mouseX && mouseX < searchFieldWidth &&
+                    0 <= mouseY && mouseY < height) {
+                client.setScreen(filteredOption.option().jumpTo(this));
+                return true;
+            }
+            mouseY -= height;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean charTyped(char chr, int modifiers) {
+        String before = searchField.getText();
+        searchField.setFocused(true);
+        boolean ret = super.charTyped(chr, modifiers);
+        String after = searchField.getText();
+        if (!Objects.equals(before, after)) {
+            updateSearchResults(after);
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        String before = searchField.getText();
+        boolean ret = super.keyPressed(keyCode, scanCode, modifiers);
+        String after = searchField.getText();
+        if (!Objects.equals(before, after)) {
+            updateSearchResults(after);
+        }
+        return ret;
+    }
+
+    private void updateSearchResults(String searchTerm) {
+        searchQuery = searchTerm;
+        filteredOptions = allOptions.stream()
+                .filter(it -> filterOption(it, searchTerm))
+                .collect(Collectors.toList());
+        scroll(0);
+    }
+
+    private boolean filterOption(ConfigOptionWithCustody configOptionWithCustody, String searchTerm) {
+        var option = configOptionWithCustody.option();
+        return option.title().getString().toLowerCase(Locale.ROOT).contains(searchTerm)
+                || (option.description().stream().anyMatch(it -> it.getString().toLowerCase(Locale.ROOT).contains(searchTerm)))
+                || option.match(searchTerm);
+    }
+}

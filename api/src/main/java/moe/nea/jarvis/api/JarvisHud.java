@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A Jarvis HUD interface.
@@ -24,7 +25,7 @@ public interface JarvisHud {
     /**
      * @return the anchor point of this hud element
      */
-    default JarvisAnchor getAnchor() {
+    default @NotNull JarvisAnchor getAnchor() {
         return JarvisAnchor.TOP_LEFT;
     }
 
@@ -57,7 +58,7 @@ public interface JarvisHud {
     /**
      * @return the label of this hud element
      */
-    Text getLabel();
+    @NotNull Text getLabel();
 
     /**
      * @return the width of this hud element in pixels, before any applied scaling
@@ -110,7 +111,7 @@ public interface JarvisHud {
      *
      * @param matrixStack the matrix stack to transform
      */
-    default void applyTransformations(MatrixStack matrixStack) {
+    default void applyTransformations(@NotNull MatrixStack matrixStack) {
         matrixStack.translate(getAbsoluteX(), getAbsoluteY(), 0);
         if (this instanceof JarvisScalable scalable) {
             matrixStack.scale(scalable.getScale(), scalable.getScale(), 0);

@@ -4,7 +4,9 @@ import moe.nea.jarvis.api.JarvisConstants;
 import moe.nea.jarvis.api.JarvisPlugin;
 import moe.nea.jarvis.impl.JarvisContainer;
 import moe.nea.jarvis.impl.JarvisUtil;
+import moe.nea.jarvis.impl.LoaderSupport;
 import moe.nea.jarvis.impl.test.TestPluginClass;
+import net.minecraft.text.Text;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.InterModComms;
@@ -14,14 +16,21 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
+import java.util.Optional;
 
 @Mod(JarvisConstants.MODID)
 public class Main {
-    JarvisContainer jarvisContainer = JarvisContainer.init();
+    JarvisContainer jarvisContainer = JarvisContainer.init(new LoaderSupport() {
+        @Override
+        public Optional<Text> getModName(String modid) {
+            return Optional.of(Text.literal(FMLLoader.getLoadingModList().getModFileById(modid).getMods().stream().findFirst().get().getDisplayName()));
+        }
+    });
 
     public Main() {
         if (FMLEnvironment.dist.isClient()) {

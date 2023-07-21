@@ -1,5 +1,9 @@
 package moe.nea.jarvis.api;
 
+import net.minecraft.text.Text;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -8,14 +12,33 @@ public interface JarvisPlugin {
      * Get all HUDs that are made available by this plugin.
      * This includes all disabled HUDs. The returned list of HUDs
      * should not change at any point during the course of the game.
-     * If values have to change it might be required to
      */
-    default List<JarvisHud> getAllHuds() {
+    default @NotNull List<@NotNull JarvisHud> getAllHuds() {
         return Collections.emptyList();
     }
 
-    String getModId();
+    /**
+     * Get all config options that are made available by this plugin.
+     * This includes all disabled, and turned off config options.
+     */
+    default @NotNull List<@NotNull JarvisConfigOption> getAllConfigOptions() {
+        return Collections.emptyList();
+    }
 
-    default void onInitialize(Jarvis jarvis) {
+    /**
+     * Multiple plugins may be associated with the same mod id.
+     *
+     * @return the mod id associated with this plugin.
+     */
+    @NotNull String getModId();
+
+    /**
+     * @return the name of this mod (defaults to mod name specified by launcher)
+     */
+    default @Nullable Text getName() {
+        return null;
+    }
+
+    default void onInitialize(@NotNull Jarvis jarvis) {
     }
 }

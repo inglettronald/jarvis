@@ -1,6 +1,7 @@
 package moe.nea.jarvis.api;
 
 import net.minecraft.client.gui.screen.Screen;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -14,12 +15,12 @@ public abstract class Jarvis {
     /**
      * @return a stream of all plugins registered with jarvis
      */
-    public abstract Stream<JarvisPlugin> getAllPlugins();
+    public abstract @NotNull Stream<@NotNull JarvisPlugin> getAllPlugins();
 
     /**
      * @return a stream of all HUDs registered by all plugins
      */
-    public abstract Stream<JarvisHud> getAllHuds();
+    public abstract @NotNull Stream<@NotNull JarvisHud> getAllHuds();
 
     /**
      * Get a HUD editor screen. You need to manually tell minecraft to display this screen. By default, displays all HUDs

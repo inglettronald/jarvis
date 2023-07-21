@@ -1,6 +1,7 @@
 package moe.nea.jarvis.api;
 
 import net.minecraft.client.util.math.MatrixStack;
+import org.jetbrains.annotations.NotNull;
 
 public enum JarvisAnchor {
     TOP_LEFT(0, 0, 8),
@@ -24,7 +25,7 @@ public enum JarvisAnchor {
         this.opposite = opposite;
     }
 
-    public JarvisAnchor getOpposite() {
+    public @NotNull JarvisAnchor getOpposite() {
         return values()[opposite];
     }
 
@@ -36,7 +37,7 @@ public enum JarvisAnchor {
         return yPosition;
     }
 
-    public void transformTo(JarvisAnchor targetCoordinateSpace, MatrixStack matrixStack, double width, double height) {
+    public void transformTo(@NotNull JarvisAnchor targetCoordinateSpace, @NotNull MatrixStack matrixStack, double width, double height) {
         matrixStack.translate(
                 width * (targetCoordinateSpace.xPosition - xPosition),
                 height * (targetCoordinateSpace.yPosition - yPosition),
@@ -44,14 +45,14 @@ public enum JarvisAnchor {
         );
     }
 
-    public Point translate(JarvisAnchor targetCoordinateSpace, double x, double y, double width, double height) {
+    public @NotNull Point translate(@NotNull JarvisAnchor targetCoordinateSpace, double x, double y, double width, double height) {
         return new Point(
                 x + width * (targetCoordinateSpace.xPosition - xPosition),
                 y + height * (targetCoordinateSpace.yPosition - yPosition)
         );
     }
 
-    public static JarvisAnchor byQuadrant(boolean isLeftHalf, boolean isTopHalf) {
+    public static @NotNull JarvisAnchor byQuadrant(boolean isLeftHalf, boolean isTopHalf) {
         return isLeftHalf ? (isTopHalf ? TOP_LEFT : BOTTOM_LEFT) : (isTopHalf ? TOP_RIGHT : BOTTOM_RIGHT);
     }
 }
