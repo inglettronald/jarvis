@@ -8,6 +8,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
@@ -47,7 +48,11 @@ public class JarvisHudEditor extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(client.textRenderer, Text.translatable("jarvis.editor.title"), width / 2, 20, -1);
+        context.drawCenteredTextWithShadow(client.textRenderer,
+                Text.translatable("jarvis.editor.title").setStyle(Style.EMPTY.withColor(new Color(100, 200, 255, 255).getRGB())),
+                width / 2, 20, -1);
+        context.drawCenteredTextWithShadow(client.textRenderer,
+                Text.translatable("jarvis.editor.scaleBlurb").setStyle(Style.EMPTY.withColor(new Color(200, 200, 200, 255).getRGB())), width / 2, 35, -1);
         boolean hasHoveredAny = grabbedHud != null;
         for (JarvisHud hud : huds) {
             context.getMatrices().push();
