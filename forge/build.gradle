@@ -36,6 +36,7 @@ dependencies {
 }
 
 processResources {
+    from(tasks.getByPath(":common:processResources"))
     inputs.property "version", project.version
 
     filesMatching("META-INF/mods.toml") {

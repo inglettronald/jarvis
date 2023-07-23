@@ -8,9 +8,11 @@ val fabric_loader_version: String by rootProject
 dependencies {
 }
 
-tasks.remapJar {
+tasks.named("remapJar", AbstractArchiveTask::class) {
     archiveClassifier.set("")
+    from("fabric.mod.json")
 }
+
 tasks.jar {
     archiveClassifier.set("dev")
 }

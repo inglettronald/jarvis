@@ -48,6 +48,7 @@ public class JarvisHudEditor extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
+        assert client != null;
         context.drawCenteredTextWithShadow(client.textRenderer,
                 Text.translatable("jarvis.editor.title").setStyle(Style.EMPTY.withColor(new Color(100, 200, 255, 255).getRGB())),
                 width / 2, 20, -1);
