@@ -8,6 +8,7 @@ plugins {
 
 val minecraft_version: String by rootProject
 val mod_version: String by rootProject
+val yarn_version: String by rootProject
 val maven_group: String by rootProject
 
 architectury {
@@ -20,7 +21,7 @@ subprojects {
     dependencies {
         "minecraft"("com.mojang:minecraft:${minecraft_version}")
         // The following line declares the yarn mappings you may select this one as well.
-        "mappings"("net.fabricmc:yarn:1.20+build.1:v2")
+        "mappings"("net.fabricmc:yarn:${yarn_version}:v2")
     }
 }
 
