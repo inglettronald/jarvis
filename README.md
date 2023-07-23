@@ -24,6 +24,19 @@ To support Jarvis just depend on `moe.nea.jarvis:jarvis-api:<version>`.
 
 Everything starts with a `JarvisPlugin` that you need to implement and register.
 
+(Example for groovy, note that version might be different!)
+```
+repositories {
+	maven { url "https://repo.nea.moe/releases/" }
+}
+
+dependencies {
+    modImplementation("moe.nea.jarvis:jarvis-api:1.0.1")
+	include("moe.nea.jarvis:jarvis-fabric:1.0.1")
+	modLocalRuntime("moe.nea.jarvis:jarvis-fabric:1.0.1")
+}
+```
+
 ### Fabric
 
 For fabric you just need to add a `jarvis` entrypoint in your `fabric.mod.json`, pointing to a **class** implementing
