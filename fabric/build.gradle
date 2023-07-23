@@ -29,6 +29,7 @@ dependencies {
 }
 
 processResources {
+    from(tasks.getByPath(":common:processResources"))
     inputs.property "version", project.version
 
     filesMatching("fabric.mod.json") {
